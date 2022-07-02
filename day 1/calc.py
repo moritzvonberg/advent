@@ -1,6 +1,6 @@
 count = 0
 lines = []
-with open("aoc1.txt") as infile:
+with open("day 1/aoc1.txt") as infile:
     lines = [int(x) for x in infile]
 
 toComp = None
