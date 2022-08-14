@@ -3,6 +3,7 @@ from typing import Set
 import networkx as nx
 import matplotlib.pyplot as plt
 
+
 class Cave():
     def __init__(self, log_paths=False) -> None:
         self.nodes = dict()
@@ -33,7 +34,7 @@ class Cave():
         self[node1].connect(self[node2])
     
     def add_node(self, name: str):
-        self[name] = CaveNode(name, node1.isupper())
+        self[name] = CaveNode(name, name.isupper())
 
     def __iter__(self):
         return self.nodes.__iter__()
@@ -52,6 +53,7 @@ class Cave():
         return self.count
 
     def do_dfs(self):
+        print(len(self.visit_stack))
         self.current_node.visit()
         self.visit_stack.append(self.current_node)
         # we don't need to check if there's a connection to end if we're moving
@@ -102,7 +104,7 @@ class CaveNode():
     def __init__(self, name: str, revisitable: bool, connected_nodes: Set[bool]=None) -> None:
         self.name = name
         self.revisitable = revisitable
-        self.connected_nodes = connected_nodes if connected_nodes else set()
+        self.connected_nodes = connected_nodes if connected_nodes else list()
         self.was_visited = False
 
     def __hash__(self):
@@ -115,8 +117,8 @@ class CaveNode():
         return other in self.connected_nodes
 
     def connect(self, other: CaveNode):
-        self.connected_nodes.add(other)
-        other.connected_nodes.add(self)
+        self.connected_nodes.append(other)
+        other.connected_nodes.append(self)
 
     def can_be_visited(self):
         return self.revisitable or not self.was_visited
@@ -131,8 +133,7 @@ class CaveNode():
         if not self.can_be_visited():
             raise Exception(f"Attempted to visit non visitable node {self}")
         
-        if not self.was_visited:
-            self.was_visited = True
+        self.was_visited = True
 
     def unvisit(self):
         self.was_visited = False
@@ -141,8 +142,6 @@ class CaveNode():
         for node in self.connected_nodes:
             if node.can_be_visited():
                 yield node
-
-
 
 visualization = nx.Graph()
 cave = Cave(log_paths=True)
@@ -158,5 +157,8 @@ with open("day 12/input.txt", 'r') as infile:
         edges.append((node1, node2))
     visualization.add_edges_from(edges)
 
-print(cave.count_paths())
 
+print(cave.count_paths())
+print(len(cave.paths))
+print(cave.paths)
+print(cave.visit_stack)
