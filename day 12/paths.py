@@ -53,28 +53,25 @@ class Cave():
         return self.count
 
     def do_dfs(self):
-        print(len(self.visit_stack))
-        self.current_node.visit()
-        self.visit_stack.append(self.current_node)
+        self.visit_current_node()
         # we don't need to check if there's a connection to end if we're moving
         # from a revisitable node
         if not self.visit_stack[-1].revisitable and not self.path_exists_to_end():
+            self.unvisit_current_node()
             return
         for neighbor in self.current_node.visitable_neighbors():
             # don't want to keep counting after we have visited end node
             # because it's not revisitable
             if neighbor == self['end']:
-                self.count += 1
-                if self.log_paths:
-                    self.add_path()
+                self.add_path()
                 continue
             self.current_node = neighbor
             self.do_dfs()
         if self.current_node == self['start']:
             return
-        self.current_node.unvisit()
-        self.current_node = self.visit_stack.pop()
+        self.unvisit_current_node()
         
+
     def path_exists_to_end(self):
         if self.current_node == self.end_node or self.current_node.is_connected_to(self.end_node):
             return True
@@ -98,6 +95,15 @@ class Cave():
             if path in self.paths:
                 raise Exception(f"attempted to add {path} for a second time")
             self.paths.add(path)
+
+    def visit_current_node(self):
+        self.current_node.visit()
+        self.visit_stack.append(self.current_node)
+    
+    def unvisit_current_node(self):
+        self.current_node.unvisit()
+        self.visit_stack.pop()
+        self.current_node = self.visit_stack[-1]
 
 
 class CaveNode():
@@ -157,8 +163,10 @@ with open("day 12/input.txt", 'r') as infile:
         edges.append((node1, node2))
     visualization.add_edges_from(edges)
 
-
 print(cave.count_paths())
+#sanity check
 print(len(cave.paths))
-print(cave.paths)
-print(cave.visit_stack)
+
+# code to redraw visualization
+# nx.draw(visualization, with_labels=True)
+# plt.show()
