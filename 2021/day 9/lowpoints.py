@@ -52,7 +52,7 @@ def gradient_descent(line, col, path=None):
             if (x, y) not in path:
                 gradient_descent(x, y, path)
 
-with open("day 9/map.txt", 'r') as infile:
+with open("2021/day 9/map.txt", 'r') as infile:
     lines = [list(int(num) for num in line if num != '\n') for line in infile.readlines()]
 
 

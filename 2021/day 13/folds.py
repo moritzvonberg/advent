@@ -65,7 +65,7 @@ dots = set()
 folds = []
 max_x = 0
 max_y = 0
-with open("day 13/input.txt", 'r') as infile:
+with open("2021/day 13/input.txt", 'r') as infile:
     for line in infile:
         if line[0].isnumeric():
             x, y = map(int, line.strip().split(','))

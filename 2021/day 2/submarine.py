@@ -1,5 +1,5 @@
 lines = []
-with open("path.txt") as infile:
+with open("2021/path.txt") as infile:
     lines = [x.split(' ') for x in infile]
 
 aim = 0

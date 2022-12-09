@@ -25,7 +25,7 @@ drawn_numbers = None
 
 boards = None
 
-with open("bingo.txt") as infile:
+with open("2021/bingo.txt") as infile:
     drawn_numbers = infile.readline()
     infile.readline()
     boards = infile.read().split('\n\n')

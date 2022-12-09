@@ -63,7 +63,7 @@ class OctopusGame():
 game = None
 tester = None
 
-with open("day 11/input.txt", 'r') as infile:
+with open("2021/day 11/input.txt", 'r') as infile:
     field = [[int(num) for num in line if num in "0123456789"] for line in infile.readlines()]
     game = OctopusGame(field)
 

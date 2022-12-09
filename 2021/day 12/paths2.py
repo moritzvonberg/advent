@@ -165,7 +165,7 @@ class CaveNode():
 
 visualization = nx.Graph()
 cave = Cave(log_paths=True)
-with open("day 12/input.txt", 'r') as infile:
+with open("2021/day 12/input.txt", 'r') as infile:
     edges = []
     for line in infile.readlines():
         node1, node2 = line.strip().split('-')
