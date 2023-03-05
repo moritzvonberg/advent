@@ -1,3 +1,5 @@
 .venv
 .config
 *session.txt
+*input.txt
+*.pyc
