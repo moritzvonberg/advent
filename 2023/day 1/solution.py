@@ -3,7 +3,7 @@ import re
 
 from aocd import get_data, submit
 
-data = get_data()
+data = get_data(day=1)
 
 words = [
     "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"
