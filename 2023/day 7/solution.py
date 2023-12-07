@@ -1,15 +1,10 @@
 from collections import Counter
 from dataclasses import dataclass
-import re
-from re import findall, finditer
 
 from aocd import get_data, submit
 
-result = 0
 
-data = get_data()
-
-cards = "AKQJT98765432"[::-1]
+CARDS = "AKQJT98765432"[::-1]
 
 
 @dataclass
@@ -22,19 +17,23 @@ class Hand:
         self.counts = Counter(hand)
 
     def hand_ordering(self):
-        return (cards.index(card) for card in self.hand)
+        return (CARDS.index(card) for card in self.hand)
 
     def __lt__(self, other: "Hand"):
-        if max(self.counts.values()) != max(other.counts.values()):
-            return max(self.counts.values()) < max(other.counts.values())
-        elif sorted(self.counts.values()) != sorted(other.counts.values()):
-            return sorted(self.counts.values(), reverse=True) < sorted(
-                other.counts.values(), reverse=True
-            )
+        own_counts = self.counts.values()
+        other_counts = other.counts.values()
+
+        if max(own_counts) != max(other_counts):
+            return max(own_counts) < max(other_counts)
+
+        elif sorted(own_counts) != sorted(other_counts):
+            return sorted(own_counts, reverse=True) < sorted(other_counts, reverse=True)
+
         else:
             return tuple(self.hand_ordering()) < tuple(other.hand_ordering())
 
 
+data = get_data()
 hands: list[Hand] = []
 
 for line in data.splitlines():
@@ -43,6 +42,7 @@ for line in data.splitlines():
 
 hands.sort()
 
+result = 0
 for i, hand in enumerate(hands):
     result += (i + 1) * hand.bid
 
